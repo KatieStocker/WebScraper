@@ -2,8 +2,10 @@ import os
 from dotenv import load_dotenv
 import requests, re
 import json
+from pathlib import Path
 
-load_dotenv()
+dotenv_path = Path('./.env.local')
+load_dotenv(dotenv_path=dotenv_path)
 
 RM_URL = os.getenv('RM_URL')
 RM_RENT_URL = os.getenv('RM_RENT_URL')
