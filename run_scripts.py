@@ -1,5 +1,5 @@
-import rightmove_buy_webscraper
-import rightmove_rent_webscraper
+from Rightmove import rightmove_buy_webscraper, rightmove_rent_webscraper
+#import rightmove_rent_webscraper
 
 def main():
     print("Running Rightmove Buy Webscraper:")
