@@ -4,13 +4,7 @@
 On Windows:
 > pip3 install -r requirements.txt --user
 
-## To run
-> python <filename.py>
-
-For example with buy_webscraper.py
-> python buy_webscraper.py
-
-### OR to run multiple scripts at a time
+## To run - open terminal from root folder and run:
 > python run_scripts.py
 
 # Usage Instructions
