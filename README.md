@@ -17,6 +17,10 @@ For example with buy_webscraper.py
 ## Environment Variables
 You will need to create yourself a .env file in the root directory of this repository. Within this file, you will need to define/set the following values:
 
+### RM_URL='https://www.rightmove.co.uk/property-for-sale/find.html?'
+
+### RM_RENT_URL='https://www.rightmove.co.uk/property-to-rent/find.html?'
+
 ### RM_LOCATION_REGION=liverpool 
   - any region of the UK - may be useful to verify the location via the region search here (https://www.rightmove.co.uk/house-prices.html), e.g. for liverpool you would see this in the url: https://www.rightmove.co.uk/house-prices/***liverpool***.html
 ### RM_MAX_BED=
