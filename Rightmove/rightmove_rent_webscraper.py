@@ -56,7 +56,7 @@ def main():
 
     # Convert the data to a pandas DataFrame and save it to a CSV file
     df = pd.DataFrame(data)
-    df.sort_values(['price_pw', 'address'], ascending=[True, True]).to_csv("rightmove_properties_rent.csv", index=False)
+    df.sort_values(['price_pw', 'address'], ascending=[True, True]).to_csv("Output/rightmove_properties_rent.csv", index=False)
 
 if __name__ == "__main__":
     main()
