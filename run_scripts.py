@@ -1,11 +1,11 @@
-import buy_webscraper
-import rent_webscraper
+import rightmove_buy_webscraper
+import rightmove_rent_webscraper
 
 def main():
     print("Running Rightmove Buy Webscraper:")
-    buy_webscraper.main()
+    rightmove_buy_webscraper.main()
     print("\nRunning Rightmove Rent Webscraper:")
-    rent_webscraper.main()
+    rightmove_rent_webscraper.main()
 
 if __name__ == "__main__":
     main()
