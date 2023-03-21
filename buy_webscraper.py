@@ -2,11 +2,10 @@ import requests, json, re
 from bs4 import BeautifulSoup
 import pandas as pd
 import os
-from dotenv import load_dotenv
+from url_stringbuilder import getRightmoveBuyString, updateIndex
 
 def main():
-    load_dotenv()
-    RIGHTMOVE_BUY_URL = os.getenv('RIGHTMOVE_BUY_URL')
+    RIGHTMOVE_BUY_URL = getRightmoveBuyString()
 
     # initialise index, this will keep track of the page numbers - 24 will be added to each iteration
     index = 0
@@ -14,11 +13,7 @@ def main():
     data = []
 
     for pages in range(41):
-
-        if index == 0:
-            url = RIGHTMOVE_BUY_URL
-        else:
-            url = RIGHTMOVE_BUY_URL.replace("&sortType=6", f"&sortType=6&index={index}")
+        url = updateIndex(RIGHTMOVE_BUY_URL, index)
 
         # Send a GET request to the URL and get the response object
         response = requests.get(RIGHTMOVE_BUY_URL)
