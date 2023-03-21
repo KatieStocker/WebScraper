@@ -16,7 +16,7 @@ def main():
         url = updateIndex(RIGHTMOVE_BUY_URL, index)
 
         # Send a GET request to the URL and get the response object
-        response = requests.get(RIGHTMOVE_BUY_URL)
+        response = requests.get(url)
 
         # Parse the response object with BeautifulSoup and extract the property listings
         soup = BeautifulSoup(response.content, "html.parser")
