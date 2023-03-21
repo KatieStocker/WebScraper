@@ -32,10 +32,19 @@ def main():
             description = (details.find("a", class_="propertyCard-link").get_text(strip=True)).replace('for sale', 'for sale, ')
             web_link = 'https://www.rightmove.co.uk%s' % (details.find("a", class_="propertyCard-link").get('href'))
             # Extract the property features, such as number of bedrooms and type
-            features = str((details.find("h2", class_="propertyCard-title").get_text(strip=True)).replace(' for sale', ''))
+            features = (details.find("h2", class_="propertyCard-title").get_text(strip=True)).replace(' for sale', '')
+
+            listing_info = listing.find("div", class_="propertyCard-headerLabel")
+            extra_info = ""
+
+            if listing_info:
+                if listing_info.get_text(strip=True) == "Premium Listing":
+                    extra_info = ""
+                else:
+                    extra_info = listing_info.get_text(strip=True)
 
             # Add the data for this listing to the list
-            data.append({"address": address, "price": price, "description": description, "features": features, "web_link": web_link})
+            data.append({"address": address, "price": price, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info})
 
         print(f"You have scraped through {pages + 1} pages")
         
@@ -44,9 +53,10 @@ def main():
         if index >= numberOfListings:
             break
 
-    # Convert the data to a pandas DataFrame and save it to a CSV file
+    # Convert the data to a pandas DataFrame
     df = pd.DataFrame(data)
-    df.to_csv("rightmove_properties_buy.csv", index=False)
+    # Sort by price and address, drop any duplicate entries, and save to a CSV file
+    df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_csv("rightmove_properties_buy.csv", index=False)
 
 if __name__ == "__main__":
     main()
