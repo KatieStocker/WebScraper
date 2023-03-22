@@ -130,5 +130,6 @@ dmypy.json
 .pyre/
 
 *buy.csv
+*buy.json
 *rent.csv
 Zoopla

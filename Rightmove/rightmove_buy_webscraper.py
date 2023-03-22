@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import os
 from .url_stringbuilder import getRightmoveBuyString, updateIndex
+import time
+import random
 
 def main():
     RIGHTMOVE_BUY_URL = getRightmoveBuyString()
@@ -47,7 +49,9 @@ def main():
             data.append({"address": address, "price": price, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info})
 
         print(f"You have scraped through {pages + 1} pages")
-        
+        # code to ensure that we do not overwhelm the website
+        time.sleep(random.randint(1, 3))
+
         index += 24
         
         if index >= numberOfListings:
@@ -57,6 +61,7 @@ def main():
     df = pd.DataFrame(data)
     # Sort by price and address, drop any duplicate entries, and save to a CSV file
     df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_csv("Output/rightmove_properties_buy.csv", index=False, sep='|')
+    df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_json("Output/rightmove_properties_buy.json", orient='records')
 
 if __name__ == "__main__":
     main()
