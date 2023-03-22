@@ -56,7 +56,7 @@ def main():
     # Convert the data to a pandas DataFrame
     df = pd.DataFrame(data)
     # Sort by price and address, drop any duplicate entries, and save to a CSV file
-    df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_csv("Output/rightmove_properties_buy.csv", index=False)
+    df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_csv("Output/rightmove_properties_buy.csv", index=False, sep='|')
 
 if __name__ == "__main__":
     main()
