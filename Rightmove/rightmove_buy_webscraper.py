@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from .url_stringbuilder import getRightmoveBuyString, updateIndex
 import time
+from datetime import date, timedelta
 import random
 
 def main():
@@ -45,8 +46,14 @@ def main():
                 else:
                     extra_info = listing_info.get_text(strip=True)
 
+            listing_response = requests.get(web_link)
+            listing_response_soup = BeautifulSoup(listing_response.content, "html.parser")
+            date_updated = getDateUpdated(listing_response_soup.find('div', class_='_2nk2x6QhNB1UrxdI5KpvaF'))
+            date_updated_type = getDateUpdatedType(date_updated)
+            date_updated = extractDate(date_updated)
+
             # Add the data for this listing to the list
-            data.append({"address": address, "price": price, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info})
+            data.append({"address": address, "price": price, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info})
 
         print(f"You have scraped through {pages + 1} pages")
         # code to ensure that we do not overwhelm the website
@@ -62,6 +69,37 @@ def main():
     # Sort by price and address, drop any duplicate entries, and save to a CSV file
     df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_csv("Output/rightmove_properties_buy.csv", index=False, sep='|')
     df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_json("Output/rightmove_properties_buy.json", orient='records')
+
+
+def extractDate(date_updated):
+    return date_updated.replace("Added on ", "").replace("Added ", "").replace("Reduced on ", "").replace("Reduced ", "")
+
+def getDateUpdated(date_updated):
+    if date_updated:
+        date_updated = date_updated.get_text(strip=True)
+        today_date = date.today()
+        yesterday_date = today_date - timedelta(days=1)
+
+        if "today" in date_updated:
+            date_updated = date_updated.replace("today", today_date.strftime("%d/%m/%Y"))
+
+        if "yesterday" in date_updated:
+            date_updated = date_updated.replace("yesterday", yesterday_date.strftime("%d/%m/%Y"))
+    else:
+        date_updated = ""
+
+    return date_updated
+
+def getDateUpdatedType(date_updated):
+    date_updated_type = "Added"
+    if date_updated:
+        if "Reduced" in date_updated:
+            date_updated_type = "Reduced"
+    else:
+        date_updated_type = ""
+        
+    return date_updated_type
+
 
 if __name__ == "__main__":
     main()
