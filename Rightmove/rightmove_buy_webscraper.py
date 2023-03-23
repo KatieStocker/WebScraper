@@ -55,7 +55,7 @@ def main():
             # Add the data for this listing to the list
             data.append({"address": address, "price": price, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info})
 
-        print(f"You have scraped through {pages + 1} pages")
+        printNumberOfPagesScraped(pages)
         # code to ensure that we do not overwhelm the website
         time.sleep(random.randint(1, 3))
 
@@ -70,13 +70,12 @@ def main():
 def createOutputs(data):
     # Convert the data to a pandas DataFrame
     df = pd.DataFrame(data)
-    print("creating csv file for output data...")
+    print("Creating output files...")
     # Sort by price and address, drop any duplicate entries, and save to a CSV file
     df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_csv("Output/rightmove_properties_buy.csv", index=False, sep='|')
-    print("creating json file for output data...")
     # Sort by price and address, drop any duplicate entries, and save to a JSON file
     df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_json("Output/rightmove_properties_buy.json", orient='records')
-    print("outputs have been created")
+    print("Outputs have been created.")
 
 def extractDate(date_updated):
     return date_updated.replace("Added on ", "").replace("Added ", "").replace("Reduced on ", "").replace("Reduced ", "")
@@ -106,6 +105,10 @@ def getDateUpdatedType(date_updated):
         date_updated_type = ""
 
     return date_updated_type
+
+def printNumberOfPagesScraped(pages):
+    numberOfPages = pages + 1
+    print(f"You have scraped through {numberOfPages} {'page' if numberOfPages == 1 else 'pages'}")
 
 
 if __name__ == "__main__":
