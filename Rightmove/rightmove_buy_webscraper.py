@@ -63,13 +63,20 @@ def main():
         
         if index >= numberOfListings:
             break
+            
+    createOutputs(data)
 
+
+def createOutputs(data):
     # Convert the data to a pandas DataFrame
     df = pd.DataFrame(data)
+    print("creating csv file for output data...")
     # Sort by price and address, drop any duplicate entries, and save to a CSV file
     df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_csv("Output/rightmove_properties_buy.csv", index=False, sep='|')
+    print("creating json file for output data...")
+    # Sort by price and address, drop any duplicate entries, and save to a JSON file
     df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_json("Output/rightmove_properties_buy.json", orient='records')
-
+    print("outputs have been created")
 
 def extractDate(date_updated):
     return date_updated.replace("Added on ", "").replace("Added ", "").replace("Reduced on ", "").replace("Reduced ", "")
@@ -97,7 +104,7 @@ def getDateUpdatedType(date_updated):
             date_updated_type = "Reduced"
     else:
         date_updated_type = ""
-        
+
     return date_updated_type
 
 
