@@ -34,13 +34,7 @@ def main():
             features = (details.find("h2", class_="propertyCard-title").get_text(strip=True)).replace(' for sale', '')
 
             listing_info = listing.find("div", class_="propertyCard-headerLabel")
-            extra_info = ""
-
-            if listing_info:
-                if listing_info.get_text(strip=True) == "Premium Listing":
-                    extra_info = ""
-                else:
-                    extra_info = listing_info.get_text(strip=True)
+            extra_info = getExtraInfoFromListing(listing_info)
 
             listing_response_soup = getBeautifulSoupResponse(web_link)
             date_updated = getDateUpdated(listing_response_soup.find('div', class_='_2nk2x6QhNB1UrxdI5KpvaF'))
@@ -106,6 +100,13 @@ def getDateUpdatedType(date_updated):
         date_updated_type = ""
 
     return date_updated_type
+
+def getExtraInfoFromListing(listing_info):
+    extra_info = ""
+    if listing_info:
+        if listing_info.get_text(strip=True) != "Premium Listing":
+            extra_info = listing_info.get_text(strip=True)
+    return extra_info
 
 def printNumberOfPagesScraped(pages):
     numberOfPages = pages + 1
