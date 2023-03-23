@@ -30,7 +30,6 @@ def main():
             price = listing.find("div", class_="propertyCard-priceValue").get_text(strip=True)
             description = (details.find("a", class_="propertyCard-link").get_text(strip=True)).replace('for sale', 'for sale, ')
             web_link = 'https://www.rightmove.co.uk%s' % (details.find("a", class_="propertyCard-link").get('href'))
-            # Extract the property features, such as number of bedrooms and type
             features = (details.find("h2", class_="propertyCard-title").get_text(strip=True)).replace(' for sale', '')
 
             listing_info = listing.find("div", class_="propertyCard-headerLabel")
@@ -40,9 +39,10 @@ def main():
             date_updated = getDateUpdated(listing_response_soup.find('div', class_='_2nk2x6QhNB1UrxdI5KpvaF'))
             date_updated_type = getDateUpdatedType(date_updated)
             date_updated = extractDate(date_updated)
+            tenure = getTenure(listing_response_soup)
 
             # Add the data for this listing to the list
-            data.append({"address": address, "price": price, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info})
+            data.append({"address": address, "price": price, "tenure": tenure, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info})
 
         printNumberOfPagesScraped(pages)
         # code to ensure that we do not overwhelm the website
@@ -107,6 +107,10 @@ def getExtraInfoFromListing(listing_info):
         if listing_info.get_text(strip=True) != "Premium Listing":
             extra_info = listing_info.get_text(strip=True)
     return extra_info
+
+def getTenure(response):
+    property_details = response.find('div', class_='_4hBezflLdgDMdFtURKTWh')
+    return property_details.find('div', class_='_32IXcntQDSML3xVUkSdyXN').find('div', class_='_3ZGPwl2N1mHAJH3cbltyWn').get_text(strip=True) if property_details.find('div', class_='_32IXcntQDSML3xVUkSdyXN') else ""
 
 def printNumberOfPagesScraped(pages):
     numberOfPages = pages + 1
