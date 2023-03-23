@@ -17,12 +17,8 @@ def main():
 
     for pages in range(41):
         url = updateIndex(RIGHTMOVE_BUY_URL, index)
-
-        # Send a GET request to the URL and get the response object
-        response = requests.get(url)
-
-        # Parse the response object with BeautifulSoup and extract the property listings
-        soup = BeautifulSoup(response.content, "html.parser")
+        soup = getBeautifulSoupResponse(url)
+        
         listings = soup.find_all("div", class_="l-searchResult is-list")
         numberOfListings = int((soup.find("span", {"class": "searchHeader-resultCount"})).get_text().replace(",", ""))
 
@@ -46,8 +42,7 @@ def main():
                 else:
                     extra_info = listing_info.get_text(strip=True)
 
-            listing_response = requests.get(web_link)
-            listing_response_soup = BeautifulSoup(listing_response.content, "html.parser")
+            listing_response_soup = getBeautifulSoupResponse(web_link)
             date_updated = getDateUpdated(listing_response_soup.find('div', class_='_2nk2x6QhNB1UrxdI5KpvaF'))
             date_updated_type = getDateUpdatedType(date_updated)
             date_updated = extractDate(date_updated)
@@ -79,6 +74,12 @@ def createOutputs(data):
 
 def extractDate(date_updated):
     return date_updated.replace("Added on ", "").replace("Added ", "").replace("Reduced on ", "").replace("Reduced ", "")
+
+def getBeautifulSoupResponse(url):
+    # Send a GET request to the URL and get the response object
+    response = requests.get(url)
+    # Parse the response object with BeautifulSoup and extract
+    return BeautifulSoup(response.content, "html.parser")
 
 def getDateUpdated(date_updated):
     if date_updated:
