@@ -42,10 +42,7 @@ def main():
             tenure = getTenure(listing_response_soup)
             
             images = []
-            initial_images = listing_response_soup.find("div", class_="_2TqQt-Hr9MN0c0wH7p7Z5p").find_all("div", class_="_2uGNfP4v5SSYyfx3rZngKM")
-        
-            for item in initial_images:
-                images.append(item.find("img").get('src'))
+            getImagesFromListing(listing_response_soup, images)
 
             # Add the data for this listing to the list
             data.append({"address": address, "price": price, "tenure": tenure, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info, "images": images})
@@ -113,6 +110,12 @@ def getExtraInfoFromListing(listing_info):
         if listing_info.get_text(strip=True) != "Premium Listing":
             extra_info = listing_info.get_text(strip=True)
     return extra_info
+
+def getImagesFromListing(response, imageList):
+    initial_images = response.find("div", class_="_2TqQt-Hr9MN0c0wH7p7Z5p").find_all("div", class_="_2uGNfP4v5SSYyfx3rZngKM")
+
+    for item in initial_images:
+        imageList.append(item.find("img").get('src'))
 
 def getTenure(response):
     property_details = response.find('div', class_='_4hBezflLdgDMdFtURKTWh')
