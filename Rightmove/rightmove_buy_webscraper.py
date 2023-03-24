@@ -40,9 +40,15 @@ def main():
             date_updated_type = getDateUpdatedType(date_updated)
             date_updated = extractDate(date_updated)
             tenure = getTenure(listing_response_soup)
+            
+            images = []
+            initial_images = listing_response_soup.find("div", class_="_2TqQt-Hr9MN0c0wH7p7Z5p").find_all("div", class_="_2uGNfP4v5SSYyfx3rZngKM")
+        
+            for item in initial_images:
+                images.append(item.find("img").get('src'))
 
             # Add the data for this listing to the list
-            data.append({"address": address, "price": price, "tenure": tenure, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info})
+            data.append({"address": address, "price": price, "tenure": tenure, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info, "images": images})
 
         printNumberOfPagesScraped(pages)
         # code to ensure that we do not overwhelm the website
