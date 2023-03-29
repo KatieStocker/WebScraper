@@ -37,17 +37,8 @@ def main():
             # Extract the property features, such as number of bedrooms and type
             features = str((details.find("h2", class_="propertyCard-title").get_text(strip=True)).replace(' for sale', ''))
 
-            listing_info = listing.find("div", class_="propertyCard-headerLabel")
-            extra_info = ""
-
-            if listing_info:
-                if listing_info.get_text(strip=True) == "Premium Listing":
-                    extra_info = ""
-                else:
-                    extra_info = listing_info.get_text(strip=True)
-
             # Add the data for this listing to the list
-            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info})
+            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "description": description, "features": features, "web_link": web_link})
 
         printNumberOfPagesScraped(pages)
         loadBuffer()
@@ -57,10 +48,6 @@ def main():
             break
 
     createOutputs(data, ['price_pcm', 'address'], 'rent')
-
-    # Convert the data to a pandas DataFrame and save it to a CSV file
-    # df = pd.DataFrame(data)
-    # df.sort_values(['price_pw', 'address'], ascending=[True, True]).to_csv("Output/rightmove_properties_rent.csv", index=False, sep='|')
 
 if __name__ == "__main__":
     main()
