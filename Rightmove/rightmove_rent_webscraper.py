@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import os
 from .url_stringbuilder import getRightmoveRentString, updateIndex
-from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, loadBuffer, printNumberOfPagesScraped
+from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_RENT_URL = getRightmoveRentString()
@@ -35,8 +35,11 @@ def main():
             date_updated_type = getDateUpdatedType(date_updated)
             date_updated = extractDate(date_updated)
 
+            images = []
+            getImagesFromListing(listing_response_soup, images)
+
             # Add the data for this listing to the list
-            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "web_link": web_link})
+            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "web_link": web_link, "images": images})
 
         printNumberOfPagesScraped(pages)
         loadBuffer()

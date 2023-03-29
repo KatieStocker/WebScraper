@@ -1,6 +1,6 @@
 import os
 from .url_stringbuilder import getRightmoveBuyString, updateIndex
-from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, loadBuffer, printNumberOfPagesScraped
+from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_BUY_URL = getRightmoveBuyString()
@@ -57,12 +57,6 @@ def getExtraInfoFromListing(listing_info):
         if listing_info.get_text(strip=True) != "Premium Listing":
             extra_info = listing_info.get_text(strip=True)
     return extra_info
-
-def getImagesFromListing(response, imageList):
-    initial_images = response.find("div", class_="_2TqQt-Hr9MN0c0wH7p7Z5p").find_all("div", class_="_2uGNfP4v5SSYyfx3rZngKM")
-
-    for item in initial_images:
-        imageList.append(item.find("img").get('src'))
 
 def getTenure(response):
     property_details = response.find('div', class_='_4hBezflLdgDMdFtURKTWh')

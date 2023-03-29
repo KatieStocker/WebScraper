@@ -54,6 +54,13 @@ def getDateUpdatedType(date_updated):
 
     return date_updated_type
 
+def getImagesFromListing(response, imageList):
+    initial_images = response.find("div", class_="_2TqQt-Hr9MN0c0wH7p7Z5p").find_all("div", class_="_2uGNfP4v5SSYyfx3rZngKM")
+
+    for item in initial_images:
+        imageList.append(item.find("img").get('src'))
+
+
 def loadBuffer():
     # code to ensure that we do not overwhelm the website
     time.sleep(random.randint(1, 3))
