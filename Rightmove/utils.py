@@ -1,5 +1,7 @@
 import pandas as pd
+import random
 import requests
+import time
 from bs4 import BeautifulSoup
 from datetime import date, timedelta
 
@@ -45,6 +47,10 @@ def getDateUpdatedType(date_updated):
         date_updated_type = ""
 
     return date_updated_type
+
+def loadBuffer():
+    # code to ensure that we do not overwhelm the website
+    time.sleep(random.randint(1, 3))
 
 def printNumberOfPagesScraped(pages):
     numberOfPages = pages + 1

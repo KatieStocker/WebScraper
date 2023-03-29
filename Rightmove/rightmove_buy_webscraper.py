@@ -1,8 +1,6 @@
 import os
-import random
-import time
 from .url_stringbuilder import getRightmoveBuyString, updateIndex
-from .utils import createOutputs, extractDate, getBeautifulSoupResponse, getDateUpdated, getDateUpdatedType, printNumberOfPagesScraped
+from .utils import createOutputs, extractDate, getBeautifulSoupResponse, getDateUpdated, getDateUpdatedType, loadBuffer, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_BUY_URL = getRightmoveBuyString()
@@ -45,9 +43,7 @@ def main():
             data.append({"address": address, "price": price, "tenure": tenure, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "features": features, "web_link": web_link, "extra_info": extra_info, "images": images})
 
         printNumberOfPagesScraped(pages)
-        # code to ensure that we do not overwhelm the website
-        time.sleep(random.randint(1, 3))
-
+        loadBuffer()
         index += 24
         
         if index >= numberOfListings:
