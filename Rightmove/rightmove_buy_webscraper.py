@@ -1,6 +1,6 @@
 import os
 from .url_stringbuilder import getRightmoveBuyString, updateIndex
-from .utils import createOutputs, extractDate, getBeautifulSoupResponse, getDateUpdated, getDateUpdatedType, loadBuffer, printNumberOfPagesScraped
+from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdated, getDateUpdatedType, loadBuffer, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_BUY_URL = getRightmoveBuyString()
@@ -22,7 +22,7 @@ def main():
             # Extract the property details
             details = listing.find("div", class_="propertyCard-details")
             address = details.find("address").get_text(strip=True)
-            price = listing.find("div", class_="propertyCard-priceValue").get_text(strip=True)
+            price = formatPrice(listing.find("div", class_="propertyCard-priceValue").get_text(strip=True), "")
             description = (details.find("a", class_="propertyCard-link").get_text(strip=True)).replace('for sale', 'for sale, ')
             web_link = 'https://www.rightmove.co.uk%s' % (details.find("a", class_="propertyCard-link").get('href'))
             features = (details.find("h2", class_="propertyCard-title").get_text(strip=True)).replace(' for sale', '')
