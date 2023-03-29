@@ -9,12 +9,15 @@ def createOutputs(data, sortValues, searchType):
     # Convert the data to a pandas DataFrame
     df = pd.DataFrame(data)
     print("Creating output files...")
-    df.sort_values(sortValues).drop_duplicates('web_link', keep='last').to_csv(f"Output/rightmove_properties_{searchType}.csv", index=False, sep='|')
-    df.sort_values(sortValues).drop_duplicates('web_link', keep='last').to_json(f"Output/rightmove_properties_{searchType}.json", orient='records')
+    df.sort_values(sortValues, ascending=[True, True]).drop_duplicates('web_link', keep='last').to_csv(f"Output/rightmove_properties_{searchType}.csv", index=False, sep='|')
+    df.sort_values(sortValues, ascending=[True, True]).drop_duplicates('web_link', keep='last').to_json(f"Output/rightmove_properties_{searchType}.json", orient='records')
     print("Outputs have been created.")
 
 def extractDate(date_updated):
     return date_updated.replace("Added on ", "").replace("Added ", "").replace("Reduced on ", "").replace("Reduced ", "")
+
+def formatPrice(priceString, replaceValue):
+    return int(priceString.replace(replaceValue, "").replace("£", "").replace(",",""))
 
 def getBeautifulSoupResponse(url):
     # Send a GET request to the URL and get the response object
