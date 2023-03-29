@@ -1,6 +1,6 @@
 import os
 from .url_stringbuilder import getRightmoveBuyString, updateIndex
-from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdated, getDateUpdatedType, loadBuffer, printNumberOfPagesScraped
+from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, loadBuffer, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_BUY_URL = getRightmoveBuyString()
@@ -31,7 +31,7 @@ def main():
             extra_info = getExtraInfoFromListing(listing_info)
 
             listing_response_soup = getBeautifulSoupResponse(web_link)
-            date_updated = getDateUpdated(listing_response_soup.find('div', class_='_2nk2x6QhNB1UrxdI5KpvaF'))
+            date_updated = getDateUpdatedFromSoup(listing_response_soup)
             date_updated_type = getDateUpdatedType(date_updated)
             date_updated = extractDate(date_updated)
             tenure = getTenure(listing_response_soup)

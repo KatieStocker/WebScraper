@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import os
 from .url_stringbuilder import getRightmoveRentString, updateIndex
-from .utils import createOutputs, formatPrice, loadBuffer, printNumberOfPagesScraped
+from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, loadBuffer, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_RENT_URL = getRightmoveRentString()
@@ -15,12 +15,7 @@ def main():
 
     for pages in range(41):
         url = updateIndex(RIGHTMOVE_RENT_URL, index)
-
-        # Send a GET request to the URL and get the response object
-        response = requests.get(url)
-
-        # Parse the response object with BeautifulSoup and extract the property listings
-        soup = BeautifulSoup(response.content, "html.parser")
+        soup = getBeautifulSoupResponse(url)
         listings = soup.find_all("div", class_="l-searchResult is-list")
 
         numberOfListings = int((soup.find("span", {"class": "searchHeader-resultCount"})).get_text().replace(",", ""))
@@ -35,8 +30,13 @@ def main():
             description = details.find("h2", class_="propertyCard-title").get_text(strip=True)
             web_link = 'https://www.rightmove.co.uk%s' % (details.find("a", class_="propertyCard-link").get('href'))
 
+            listing_response_soup = getBeautifulSoupResponse(web_link)
+            date_updated = getDateUpdatedFromSoup(listing_response_soup)
+            date_updated_type = getDateUpdatedType(date_updated)
+            date_updated = extractDate(date_updated)
+
             # Add the data for this listing to the list
-            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "description": description, "web_link": web_link})
+            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "web_link": web_link})
 
         printNumberOfPagesScraped(pages)
         loadBuffer()

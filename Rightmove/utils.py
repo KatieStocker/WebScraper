@@ -41,6 +41,9 @@ def getDateUpdated(date_updated):
 
     return date_updated
 
+def getDateUpdatedFromSoup(soup):
+    return getDateUpdated(soup.find('div', class_='_2nk2x6QhNB1UrxdI5KpvaF'))
+
 def getDateUpdatedType(date_updated):
     date_updated_type = "Added"
     if date_updated:
