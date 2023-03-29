@@ -32,13 +32,11 @@ def main():
             address = details.find("address").get_text(strip=True)
             price_pcm = formatPrice(listing.find("span", class_="propertyCard-priceValue").get_text(strip=True), " pcm")
             price_pw = formatPrice(listing.find("span", class_="propertyCard-secondaryPriceValue").get_text(strip=True), " pw")
-            description = (details.find("a", class_="propertyCard-link").get_text(strip=True)).replace('for sale', 'for sale, ')
+            description = details.find("h2", class_="propertyCard-title").get_text(strip=True)
             web_link = 'https://www.rightmove.co.uk%s' % (details.find("a", class_="propertyCard-link").get('href'))
-            # Extract the property features, such as number of bedrooms and type
-            features = str((details.find("h2", class_="propertyCard-title").get_text(strip=True)).replace(' for sale', ''))
 
             # Add the data for this listing to the list
-            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "description": description, "features": features, "web_link": web_link})
+            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "description": description, "web_link": web_link})
 
         printNumberOfPagesScraped(pages)
         loadBuffer()
