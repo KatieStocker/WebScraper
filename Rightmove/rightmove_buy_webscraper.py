@@ -1,11 +1,8 @@
-import requests, json, re
-from bs4 import BeautifulSoup
-import pandas as pd
 import os
-from .url_stringbuilder import getRightmoveBuyString, updateIndex
-import time
-from datetime import date, timedelta
 import random
+import time
+from .url_stringbuilder import getRightmoveBuyString, updateIndex
+from .utils import createOutputs, extractDate, getBeautifulSoupResponse, getDateUpdated, getDateUpdatedType, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_BUY_URL = getRightmoveBuyString()
@@ -56,53 +53,7 @@ def main():
         if index >= numberOfListings:
             break
             
-    createOutputs(data)
-
-
-def createOutputs(data):
-    # Convert the data to a pandas DataFrame
-    df = pd.DataFrame(data)
-    print("Creating output files...")
-    # Sort by price and address, drop any duplicate entries, and save to a CSV file
-    df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_csv("Output/rightmove_properties_buy.csv", index=False, sep='|')
-    # Sort by price and address, drop any duplicate entries, and save to a JSON file
-    df.sort_values(['price', 'address']).drop_duplicates('web_link', keep='last').to_json("Output/rightmove_properties_buy.json", orient='records')
-    print("Outputs have been created.")
-
-def extractDate(date_updated):
-    return date_updated.replace("Added on ", "").replace("Added ", "").replace("Reduced on ", "").replace("Reduced ", "")
-
-def getBeautifulSoupResponse(url):
-    # Send a GET request to the URL and get the response object
-    response = requests.get(url)
-    # Parse the response object with BeautifulSoup and extract
-    return BeautifulSoup(response.content, "html.parser")
-
-def getDateUpdated(date_updated):
-    if date_updated:
-        date_updated = date_updated.get_text(strip=True)
-        today_date = date.today()
-        yesterday_date = today_date - timedelta(days=1)
-
-        if "today" in date_updated:
-            date_updated = date_updated.replace("today", today_date.strftime("%d/%m/%Y"))
-
-        if "yesterday" in date_updated:
-            date_updated = date_updated.replace("yesterday", yesterday_date.strftime("%d/%m/%Y"))
-    else:
-        date_updated = ""
-
-    return date_updated
-
-def getDateUpdatedType(date_updated):
-    date_updated_type = "Added"
-    if date_updated:
-        if "Reduced" in date_updated:
-            date_updated_type = "Reduced"
-    else:
-        date_updated_type = ""
-
-    return date_updated_type
+    createOutputs(data, ['price', 'address'], 'buy')
 
 def getExtraInfoFromListing(listing_info):
     extra_info = ""
@@ -120,10 +71,6 @@ def getImagesFromListing(response, imageList):
 def getTenure(response):
     property_details = response.find('div', class_='_4hBezflLdgDMdFtURKTWh')
     return property_details.find('div', class_='_32IXcntQDSML3xVUkSdyXN').find('div', class_='_3ZGPwl2N1mHAJH3cbltyWn').get_text(strip=True) if property_details.find('div', class_='_32IXcntQDSML3xVUkSdyXN') else ""
-
-def printNumberOfPagesScraped(pages):
-    numberOfPages = pages + 1
-    print(f"You have scraped through {numberOfPages} {'page' if numberOfPages == 1 else 'pages'}")
 
 
 if __name__ == "__main__":
