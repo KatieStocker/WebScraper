@@ -16,6 +16,21 @@ def createOutputs(data, sortValues, searchType):
 def extractDate(date_updated):
     return date_updated.replace("Added on ", "").replace("Added ", "").replace("Reduced on ", "").replace("Reduced ", "")
 
+def formatDateAvailable(string_type, la_date):
+    if string_type == "Let available date" and la_date == "Now":
+        today_date = date.today().strftime("%d/%m/%Y")
+        la_date = today_date
+
+    return la_date
+
+def formatLettingDetailTitle(detail):
+    detail = detail.replace("Min.", "Minimum").replace(" ", "_").lower()
+    return detail
+
+def formatLettingDetailValue(value):
+    value = value.replace("£", "").replace(",", "")
+    return value
+
 def formatPrice(priceString, replaceValue):
     return int(priceString.replace(replaceValue, "").replace("£", "").replace(",",""))
 

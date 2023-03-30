@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import os
 from .url_stringbuilder import getRightmoveRentString, updateIndex
-from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
+from .utils import createOutputs, extractDate, formatDateAvailable, formatLettingDetailTitle, formatLettingDetailValue, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_RENT_URL = getRightmoveRentString()
@@ -38,8 +38,13 @@ def main():
             images = []
             getImagesFromListing(listing_response_soup, images)
 
+            letting_details_list = []
+            getLettingDetails(listing_response_soup, letting_details_list)
+
+            property_type = listing_response_soup.find("div", class_="_3ZGPwl2N1mHAJH3cbltyWn").find("div", class_="_3OGW_s5TH6aUqi4uHum5Gy").text
+
             # Add the data for this listing to the list
-            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "web_link": web_link, "images": images})
+            data.append({"address": address, "price_pcm": price_pcm, "price_pw": price_pw, "date_updated": date_updated, "date_updated_type": date_updated_type, "description": description, "property_type": property_type, "letting_details": letting_details_list, "web_link": web_link, "images": images})
 
         printNumberOfPagesScraped(pages)
         loadBuffer()
@@ -49,6 +54,19 @@ def main():
             break
 
     createOutputs(data, ['price_pcm', 'address'], 'rent')
+
+def getLettingDetails(soup, detail_list):
+    letting_details = soup.find_all("div", class_="_2RnXSVJcWbWv4IpBC1Sng6")
+
+    for letting_detail in letting_details:
+        dt_string = letting_detail.find("dt").text.replace(": ", "")
+        dd_string = letting_detail.find("dd").text.replace("A deposit provides security for a landlord against damage, or unpaid rent by a tenant.Read more about deposit in our glossary page.", "")
+
+        dd_string = formatDateAvailable(dt_string, dd_string)
+        dd_string = formatLettingDetailValue(dd_string)
+        dt_string = formatLettingDetailTitle(dt_string)
+
+        detail_list.append({dt_string: dd_string})
 
 if __name__ == "__main__":
     main()
