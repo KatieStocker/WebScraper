@@ -1,7 +1,7 @@
 # WebScraper
 
 ## Fork and clone this repo
-> git clone https://github.com/<user>/WebScraper.git
+> git clone https://github.com/"user"/WebScraper.git
 
 ## Install the requirements
 On Windows:
