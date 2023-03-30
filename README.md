@@ -90,3 +90,8 @@ You will need to create yourself a .env file in the root directory of this repos
     - false
 ### RM_LET_TYPE= 
   - shortTerm, longTerm or leave blank for any
+
+---
+
+## Disclaimer
+Please note that this project is for **personal use only** - the use of webscrapers is unauthorised by some of the websites used within this project.
