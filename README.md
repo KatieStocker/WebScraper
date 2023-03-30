@@ -1,5 +1,8 @@
 # WebScraper
 
+## Fork and clone this repo
+> git clone https://github.com/<user>/WebScraper.git
+
 ## Install the requirements
 On Windows:
 > pip3 install -r requirements.txt --user
