@@ -17,7 +17,7 @@ To use the values you require, please make sure to change the values against the
 
 # Usage Instructions
 ## Environment Variables
-You will need to create yourself a .env file in the root directory of this repository. Within this file, you will need to define/set the following values:
+You will need to create yourself a .env.local file in the root directory of this repository, similar to the existing [.env](./.env) file, (or otherwise follow the instructions in the Note of the "To run..." step above). Within this file, you will need to define/set the following values:
 
 ### RM_URL='https://www.rightmove.co.uk/property-for-sale/find.html?'
 
