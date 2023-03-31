@@ -11,9 +11,9 @@ On Windows:
 > python run_scripts.py
 
 ### Note
-The [run_scripts.py](./run_scripts.py) file does contain a section of code to create the .env.local file automatically for you (which is what the application uses to retrieve the environment variables) - [this section of code](./run_scripts.py#L7) needs uncommenting (removal of the "#" on lines 7 and 8). 
+The [run_scripts.py](./run_scripts.py) file does contain a section of code to create the .env.local file automatically for you (which is what the application uses to retrieve the environment variables) - [this section of code](./run_scripts.py#L7L8) needs uncommenting (removal of the "#" on lines 7 and 8). 
 
-To use the values you require, please make sure to change the values against the variables within the [relevant script](./create_env_script.sh#L10) before running the run_scripts file.
+To use the values you require, please make sure to change the values against the variables within the [relevant script](./create_env_script.sh#L10L28) before running the run_scripts file.
 
 # Usage Instructions
 ## Environment Variables
