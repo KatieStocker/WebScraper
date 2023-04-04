@@ -102,6 +102,59 @@ You will need to create yourself a .env.local file in the root directory of this
 ### RM_LET_TYPE= 
   - shortTerm, longTerm or leave blank for any
 
+### PB_URL='https://www.purplebricks.co.uk/search/property-for-sale/?'
+
+### PB_PAGE=1
+  - page number
+
+### PB_SORT_BY=4 
+  - 2 for highest price
+  - 3 for lowest price
+  - 4 for most recent
+
+### PB_STYLE=8 
+  - filter by
+    - 6 Terraced
+    - 7 End of Terrace
+    - 8 Semi-Detached
+    - 9 Detached
+
+### PB_LOCATION='london'
+  - any region of the UK
+
+### PB_RADIUS=10
+  - radius around the chosen location
+
+### PB_SEARCH_TYPE='ForSale'
+  - search type
+    - 'ForSale'
+    - 'ForRent'
+
+### PB_SOLD_OR_LET=false
+  - display sold or let properties
+    - true
+    - false
+
+### PB_MIN_PRICE=50000
+  - price from value, i.e. minimum price
+
+### PB_MAX_PRICE=500000
+  - price to value, i.e. maximum price
+
+### PB_MIN_BED=1
+  - minimum number of bedrooms
+
+### PB_MAX_BED=10
+  - maximum number of bedrooms
+### PB_TYPE=1
+  - type of property
+    -  1 House
+    -  2 Bungalow
+    -  3 Flat/Apartment
+    -  4 Land
+    -  5 Commercial
+    -  6 Other
+
 ---
 
 ## Disclaimer
