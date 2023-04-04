@@ -1,5 +1,6 @@
 import subprocess
 from Rightmove import rightmove_buy_webscraper, rightmove_rent_webscraper
+from PurpleBricks import pb_buy_webscraper
 
 def main():
 
@@ -11,6 +12,9 @@ def main():
     rightmove_buy_webscraper.main()
     print("\nRunning Rightmove Rent Webscraper:")
     rightmove_rent_webscraper.main()
+
+    print("\n Running PurbleBricks Buy Webscraper:")
+    pb_buy_webscraper.main()
 
 if __name__ == "__main__":
     main()
