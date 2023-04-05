@@ -21,21 +21,21 @@ def main():
     features = soup.find_all('span', {'class': 'property-cardstyled__StyledTitle-sc-15g6092-9 hpHzPf'})
     web_links = soup.find_all('a', {'class': 'property-cardstyled__StyledLink-sc-15g6092-1 eQIvCR'})
 
-    initialiseDataObject(data, len(prices))
+    initialiseDataObject(data, len(prices), index)
 
-    populateDataObject(prices, "price", data)
-    populateDataObject(addresses, "address", data)
-    populateDataObject(features, "features", data)
-    populateDataObject(web_links, "web_link", data)
+    populateDataObject(prices, "price", data, index)
+    populateDataObject(addresses, "address", data, index)
+    populateDataObject(features, "features", data, index)
+    populateDataObject(web_links, "web_link", data, index)
 
 
-def initialiseDataObject(data, length):
+def initialiseDataObject(data, length, index):
     count = 0
     while count < length:
         data.append({"price": "", "address": "", "features": "", "web_link": ""})
         count+=1
 
-def populateDataObject(items, itemType, dataObject):
+def populateDataObject(items, itemType, dataObject, index):
     count = 0
     for item in items:
         stringToAppend = ""
