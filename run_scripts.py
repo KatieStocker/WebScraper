@@ -12,8 +12,7 @@ def main():
     rightmove_buy_webscraper.main()
     print("\nRunning Rightmove Rent Webscraper:")
     rightmove_rent_webscraper.main()
-
-    print("\n Running PurbleBricks Buy Webscraper:")
+    print("\nRunning PurbleBricks Buy Webscraper:")
     pb_buy_webscraper.main()
 
 if __name__ == "__main__":
