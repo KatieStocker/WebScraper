@@ -1,6 +1,7 @@
 import os
 from .url_stringbuilder import getRightmoveBuyString, updateIndex
-from .utils import createOutputs, extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
+from .utils import extractDate, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
+from global_utils import createOutputs
 
 def main():
     RIGHTMOVE_BUY_URL = getRightmoveBuyString()
@@ -49,7 +50,7 @@ def main():
         if index >= numberOfListings:
             break
             
-    createOutputs(data, ['price', 'address'], 'buy')
+    createOutputs(data, ['price', 'address'], 'buy', 'rightmove')
 
 def getExtraInfoFromListing(listing_info):
     extra_info = ""

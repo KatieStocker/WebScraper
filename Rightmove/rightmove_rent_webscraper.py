@@ -3,7 +3,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import os
 from .url_stringbuilder import getRightmoveRentString, updateIndex
-from .utils import createOutputs, extractDate, formatDateAvailable, formatLettingDetailTitle, formatLettingDetailValue, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
+from .utils import extractDate, formatDateAvailable, formatLettingDetailTitle, formatLettingDetailValue, formatPrice, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
+from global_utils import createOutputs
 
 def main():
     RIGHTMOVE_RENT_URL = getRightmoveRentString()
@@ -53,7 +54,7 @@ def main():
         if index >= numberOfListings:
             break
 
-    createOutputs(data, ['price_pcm', 'address'], 'rent')
+    createOutputs(data, ['price_pcm', 'address'], 'rent', 'rightmove')
 
 def getLettingDetails(soup, detail_list):
     letting_details = soup.find_all("div", class_="_2RnXSVJcWbWv4IpBC1Sng6")
