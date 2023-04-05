@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from .url_stringbuilder import getPurpleBricksBuyString
+from global_utils import createOutputs
 
 def main():
     PB_BUY_URL = getPurpleBricksBuyString()
@@ -27,6 +28,8 @@ def main():
     populateDataObject(addresses, "address", data, index)
     populateDataObject(features, "features", data, index)
     populateDataObject(web_links, "web_link", data, index)
+
+    createOutputs(data, ['price', 'address'], 'buy', 'purplebricks')
 
 
 def initialiseDataObject(data, length, index):
