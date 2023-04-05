@@ -4,16 +4,15 @@ from .url_stringbuilder import getPurpleBricksBuyString
 
 def main():
     PB_BUY_URL = getPurpleBricksBuyString()
-    # set the URL of the page to scrape
-    url = 'https://www.purplebricks.co.uk/search/property-for-sale/london'
+
+    index = 0
+    data = []
 
     # send a GET request to the URL
     response = requests.get(PB_BUY_URL)
 
     # parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(response.content, 'html.parser')
-
-    #print(soup)
 
     # find the elements on the page that you want to extract data from
     # e.g. the price of the properties
@@ -22,20 +21,32 @@ def main():
     features = soup.find_all('span', {'class': 'property-cardstyled__StyledTitle-sc-15g6092-9 hpHzPf'})
     web_links = soup.find_all('a', {'class': 'property-cardstyled__StyledLink-sc-15g6092-1 eQIvCR'})
 
-    length = len(prices)
+    initialiseDataObject(data, len(prices))
 
-    # iterate over the elements and extract the data
-    for price in prices:
-        print(price.text.strip())
+    populateDataObject(prices, "price", data)
+    populateDataObject(addresses, "address", data)
+    populateDataObject(features, "features", data)
+    populateDataObject(web_links, "web_link", data)
 
-    for address in addresses:
-        print(address.text.strip())
+
+def initialiseDataObject(data, length):
+    count = 0
+    while count < length:
+        data.append({"price": "", "address": "", "features": "", "web_link": ""})
+        count+=1
+
+def populateDataObject(items, itemType, dataObject):
+    count = 0
+    for item in items:
+        stringToAppend = ""
+        if itemType == "web_link":
+            stringToAppend = f"https://www.purplebricks.co.uk{item.get('href')}"
+        else:
+            stringToAppend = item.text.strip()
+
+        dataObject[count][itemType] = stringToAppend
+        count += 1
     
-    for feature in features:
-        print(feature.text.strip())
-    
-    for web_link in web_links:
-        print(f"https://www.purplebricks.co.uk{web_link.get('href')}")
 
 if __name__ == "__main__":
     main()
