@@ -9,3 +9,6 @@ def createOutputs(data, sortValues, searchType, scrapeType):
 
     df.sort_values(sortValues, ascending=[True, True]).drop_duplicates('web_link', keep='last').to_json(f"Output/{scrapeType}_properties_{searchType}.json", orient='records')
     print("Outputs have been created.")
+
+def formatPrice(priceString, replaceValue):
+    return int(priceString.replace(replaceValue, "").replace("£", "").replace(",",""))
