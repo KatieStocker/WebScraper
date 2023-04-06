@@ -22,9 +22,6 @@ def formatLettingDetailValue(value):
     value = value.replace("£", "").replace(",", "")
     return value
 
-def formatPrice(priceString, replaceValue):
-    return int(priceString.replace(replaceValue, "").replace("£", "").replace(",",""))
-
 def getBeautifulSoupResponse(url):
     # Send a GET request to the URL and get the response object
     response = requests.get(url)
