@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from .url_stringbuilder import getPurpleBricksBuyString
-from global_utils import createOutputs
+from global_utils import createOutputs, formatPrice
 
 def main():
     PB_BUY_URL = getPurpleBricksBuyString()
@@ -46,10 +46,12 @@ def populateDataObject(items, itemType, dataObject, index):
             stringToAppend = f"https://www.purplebricks.co.uk{item.get('href')}"
         else:
             stringToAppend = item.text.strip()
+            
+            if itemType == "price":
+                stringToAppend = formatPrice(stringToAppend, "")
 
         dataObject[count][itemType] = stringToAppend
         count += 1
-    
 
 if __name__ == "__main__":
     main()
