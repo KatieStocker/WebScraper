@@ -1,7 +1,7 @@
 import os
 from .url_stringbuilder import getRightmoveBuyString, updateIndex
-from .utils import extractDate, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
-from global_utils import createOutputs, formatPrice
+from .utils import extractDate, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing
+from global_utils import createOutputs, formatPrice, loadBuffer, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_BUY_URL = getRightmoveBuyString()

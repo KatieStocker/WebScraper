@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import os
 from .url_stringbuilder import getRightmoveRentString, updateIndex
-from .utils import extractDate, formatDateAvailable, formatLettingDetailTitle, formatLettingDetailValue, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing, loadBuffer, printNumberOfPagesScraped
-from global_utils import createOutputs, formatPrice
+from .utils import extractDate, formatDateAvailable, formatLettingDetailTitle, formatLettingDetailValue, getBeautifulSoupResponse, getDateUpdatedFromSoup, getDateUpdatedType, getImagesFromListing
+from global_utils import createOutputs, formatPrice, loadBuffer, printNumberOfPagesScraped
 
 def main():
     RIGHTMOVE_RENT_URL = getRightmoveRentString()

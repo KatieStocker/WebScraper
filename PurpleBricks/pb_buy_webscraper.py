@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from .url_stringbuilder import getPurpleBricksBuyString, updatePageNumber
-from global_utils import createOutputs, formatPrice
+from global_utils import createOutputs, formatPrice, loadBuffer, printNumberOfPagesScraped
 
 def main():
     PB_BUY_URL = getPurpleBricksBuyString()
@@ -29,6 +29,8 @@ def main():
         populateDataObject(web_links, "web_link", data, pages)
 
         lastPage = getLastPageNumber(soup)
+        printNumberOfPagesScraped(pages)
+        loadBuffer()
 
         if lastPage == index:
             break

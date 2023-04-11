@@ -1,6 +1,4 @@
-import random
 import requests
-import time
 from bs4 import BeautifulSoup
 from datetime import date, timedelta
 
@@ -62,12 +60,3 @@ def getImagesFromListing(response, imageList):
 
     for item in initial_images:
         imageList.append(item.find("img").get('src'))
-
-
-def loadBuffer():
-    # code to ensure that we do not overwhelm the website
-    time.sleep(random.randint(1, 3))
-
-def printNumberOfPagesScraped(pages):
-    numberOfPages = pages + 1
-    print(f"You have scraped through {numberOfPages} {'page' if numberOfPages == 1 else 'pages'}")

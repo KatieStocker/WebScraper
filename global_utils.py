@@ -1,4 +1,6 @@
 import pandas as pd
+import random
+import time
 
 def createOutputs(data, sortValues, searchType, scrapeType):
     df = pd.DataFrame(data)
@@ -12,3 +14,11 @@ def createOutputs(data, sortValues, searchType, scrapeType):
 
 def formatPrice(priceString, replaceValue):
     return int(priceString.replace(replaceValue, "").replace("£", "").replace(",",""))
+
+def loadBuffer():
+    # code to ensure that we do not overwhelm the website
+    time.sleep(random.randint(1, 3))
+
+def printNumberOfPagesScraped(pages):
+    numberOfPages = pages + 1
+    print(f"You have scraped through {numberOfPages} {'page' if numberOfPages == 1 else 'pages'}")
