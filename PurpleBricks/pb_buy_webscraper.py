@@ -1,13 +1,25 @@
 import requests
 from bs4 import BeautifulSoup
-from .url_stringbuilder import getPurpleBricksBuyString
+from .url_stringbuilder import getPurpleBricksBuyString, updatePageNumber
 from global_utils import createOutputs, formatPrice
 
 def main():
     PB_BUY_URL = getPurpleBricksBuyString()
 
-    index = 0
+    index = 1
     data = []
+
+    for pages in range(5):
+        url = updatePageNumber(PB_BUY_URL, index)
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        lastPage = getLastPageNumber(soup)
+
+
+        if lastPage == index:
+            break
+        index += 1
 
     # send a GET request to the URL
     response = requests.get(PB_BUY_URL)
@@ -32,6 +44,12 @@ def main():
     createOutputs(data, ['price', 'address'], 'buy', 'purplebricks')
 
 
+def getLastPageNumber(soup):
+    paginationSection = soup.find('div', class_='search-resultsstyled__StyledResultsContainer-krg5hu-0 kiVMLJ').find('ol', class_='pagination-controlsstyled__StyledContainer-sxmx16-0 bySxTQ')
+    paginationList = paginationSection.find_all('li')
+    lastPage = paginationList[len(paginationList) - 2]
+    return int(lastPage.text)
+
 def initialiseDataObject(data, length, index):
     count = 0
     while count < length:
@@ -46,7 +64,7 @@ def populateDataObject(items, itemType, dataObject, index):
             stringToAppend = f"https://www.purplebricks.co.uk{item.get('href')}"
         else:
             stringToAppend = item.text.strip()
-            
+
             if itemType == "price":
                 stringToAppend = formatPrice(stringToAppend, "")
 
