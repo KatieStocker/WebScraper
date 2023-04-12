@@ -9,7 +9,7 @@ def main():
     index = 1
     data = []
 
-    for pages in range(5):
+    for pages in range(50):
         url = updatePageNumber(PB_BUY_URL, index)
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
